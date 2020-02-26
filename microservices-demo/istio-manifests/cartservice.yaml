@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: cartservice
+spec:
+  hosts:
+  - "cartservice.default.svc.cluster.local"
+  gateways:
+  - frontend-gateway
+  http:
+  - route:
+    - destination:
+        host: cartservice
+        port:
+          number: 7070

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: adservice
+  annotations:
+    getambassador.io/config: |
+      ---
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: addservice_mapping
+      host: adservice.your-domain
+      prefix: /
+      service: adservice:9555
+spec:
+  selector:
+    app: adservice
+    name: adservice
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80

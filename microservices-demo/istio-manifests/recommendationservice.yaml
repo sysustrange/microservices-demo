@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: recommendationservice
+spec:
+  hosts:
+  - "recommendationservice.default.svc.cluster.local"
+  gateways:
+  - frontend-gateway
+  http:
+  - route:
+    - destination:
+        host: recommendationservice
+        port:
+          number: 8080
