@@ -1,3 +1,7 @@
+
+
+
+
 # Run demo
 
 [toc]
@@ -85,21 +89,25 @@ skaffold run
 ```
 ![Screen Shot 2020-02-07 at 12.36.06 AM](./img/7.png)
 
-![Screen Shot 2020-02-07 at 12.55.58 AM](./img/8.png)
+
 
 ```
 kubectl get pods
 ```
 
+
+
+![Screen Shot 2020-02-07 at 12.55.58 AM](./img/8.png)
+
 ![Screen Shot 2020-02-07 at 12.55.27 AM](./img/9.png)
 
-![Screen Shot 2020-02-07 at 12.56.16 AM](./img/10.png)
+
 
 ```bash
 kubectl -n istio-system get service istio-ingressgateway
 ```
 
-![Screen Shot 2020-02-07 at 12.56.42 AM](./img/11.png)
+
 
 ```bash
 INGRESS_HOST="$(kubectl -n istio-system get service istio-ingressgateway \
@@ -110,15 +118,21 @@ INGRESS_HOST="$(kubectl -n istio-system get service istio-ingressgateway \
 echo "$INGRESS_HOST"
 ```
 
-![Screen Shot 2020-02-07 at 12.33.32 AM](./img/12.png)
 
 
+![Screen Shot 2020-02-07 at 12.56.16 AM](./img/10.png)
+
+![Screen Shot 2020-02-07 at 12.56.42 AM](./img/11.png)
 
 
 
 ```bash
 skaffold delete
 ```
+
+![Screen Shot 2020-02-07 at 12.33.32 AM](./img/12.png)
+
+
 
 
 
