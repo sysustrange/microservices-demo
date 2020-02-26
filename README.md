@@ -28,7 +28,7 @@ docker rmi -f $(docker images -q)
 
 Add support for Kubernetes in Docker desktop
 
-![Screen Shot 2020-02-07 at 12.16.22 AM](img/Screen Shot 2020-02-07 at 12.16.22 AM.png)
+![Screen Shot 2020-02-07 at 12.16.22 AM](./img/Screen Shot 2020-02-07 at 12.16.22 AM.png)
 
 
 
