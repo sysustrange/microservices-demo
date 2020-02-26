@@ -5,7 +5,7 @@
 
 
 ```bash
-git clone https://github.com/GoogleCloudPlatform/microservices-demo.git
+git clone git@github.com:sysustrange/microservices-demo.git
 ```
 
 
@@ -37,14 +37,6 @@ kubectl get nodes
 ```
 
 ![Screen Shot 2020-02-07 at 12.17.40 AM](./img/2.png)
-
-```bash
-curl -L https://istio.io/downloadIstio | sh -
-```
-
-
-
-![Screen Shot 2020-02-07 at 12.25.28 AM](./img/3.png)
 
 
 
