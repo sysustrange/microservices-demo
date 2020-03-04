@@ -1,0 +1,167 @@
+# Homework 2
+
+Student: Junlin Zeng, Tiancan Yu
+
+
+
+
+
+install edgectl
+
+```bash
+wget https://metriton.datawire.io/downloads/darwin/edgectl
+sudo mv edgectl /usr/local/bin/
+sudo chmod a+x /usr/local/bin/edgectl
+edgectl install
+```
+
+
+
+set api gateway
+
+```bash
+git clone git@github.com:sysustrange/microservices-demo.git
+cd microservices-demo/microservices-demo/
+skaffold run
+kubectl apply -f mapping.yaml
+```
+
+make our docker for auth
+
+```bash
+cd ../ambassador-auth-service
+bash travis-build.sh
+```
+
+Our docker image is in here
+
+```http
+https://hub.docker.com/r/tiancanyu/ambassador-auth-service
+```
+
+![Screen Shot 2020-03-03 at 9.54.50 PM](img/Screen%20Shot%202020-03-03%20at%209.54.50%20PM.png)
+
+
+
+set up auth
+
+```
+cd ../microservices-demo/
+kubectl apply -f user-auth.yaml
+kubectl apply -f extenal-filter.yaml
+```
+
+
+
+
+
+
+
+check for deployment
+
+```bash
+kubectl get svc -n ambassador
+```
+
+![Screen Shot 2020-03-03 at 10.10.01 PM](img/Screen%20Shot%202020-03-03%20at%2010.10.01%20PM.png)
+
+
+
+```bash
+kubectl get pods -n ambassador
+```
+
+![Screen Shot 2020-03-03 at 10.10.44 PM](img/Screen%20Shot%202020-03-03%20at%2010.10.44%20PM.png)
+
+
+
+Verify the auth
+
+```bash
+curl -Lkv http://localhost
+```
+
+![Screen Shot 2020-03-03 at 9.52.01 PM](img/Screen%20Shot%202020-03-03%20at%209.52.01%20PM.png)
+
+
+
+```bash
+curl -Lkv -u username:password http://localhost
+```
+
+![Screen Shot 2020-03-03 at 9.52.54 PM](img/Screen%20Shot%202020-03-03%20at%209.52.54%20PM.png)
+
+![Screen Shot 2020-03-03 at 9.53.09 PM](img/Screen%20Shot%202020-03-03%20at%209.53.09%20PM.png)
+
+
+
+To see it more clearly.
+
+```bash
+curl -Lkv -u username:password http://localhost > ~/Desktop/test.html
+```
+
+![Screen Shot 2020-03-03 at 9.53.59 PM](img/Screen%20Shot%202020-03-03%20at%209.53.59%20PM.png)
+
+![Screen Shot 2020-03-03 at 10.13.21 PM](img/Screen%20Shot%202020-03-03%20at%2010.13.21%20PM.png)
+
+
+
+Test via web browser
+
+open Chrome and enter
+
+```http
+http://localhost
+```
+
+![Screen Shot 2020-03-03 at 9.57.50 PM](img/Screen%20Shot%202020-03-03%20at%209.57.50%20PM.png)
+
+
+
+Enter username and password
+
+![Screen Shot 2020-03-03 at 9.58.04 PM](img/Screen%20Shot%202020-03-03%20at%209.58.04%20PM-3291776.png)
+
+
+
+See the home page of the web service
+
+![Screen Shot 2020-03-03 at 9.58.12 PM](img/Screen%20Shot%202020-03-03%20at%209.58.12%20PM.png)
+
+
+
+Bench mark with LoadGenerator
+
+```bash
+cd ../loadgenerator-benchmark
+```
+
+Before  add the Authetication+API Gateway
+
+```
+
+```
+
+
+
+After  add the Authetication+API Gateway
+
+```
+bash loadgen.sh
+```
+
+we can see that the auth block the request without username and password
+
+![Screen Shot 2020-03-03 at 10.19.06 PM](img/Screen%20Shot%202020-03-03%20at%2010.19.06%20PM.png)
+
+
+
+To see the result of  request with username and password
+
+we modity the $loadgen.sh$ as following.
+
+```
+
+```
+
