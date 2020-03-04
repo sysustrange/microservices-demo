@@ -26,7 +26,25 @@ skaffold run
 kubectl apply -f mapping.yaml
 ```
 
-make our docker for auth
+
+
+Check the pods and services
+
+Note that we haven't deploy the frontend-external service. 
+
+And we expose the frontend service by the API Gateway.
+
+![Screen Shot 2020-03-03 at 10.27.10 PM](img/Screen%20Shot%202020-03-03%20at%2010.27.10%20PM-3292591.png)
+
+![Screen Shot 2020-03-03 at 10.27.22 PM](img/Screen%20Shot%202020-03-03%20at%2010.27.22%20PM.png)
+
+
+
+
+
+
+
+Make our docker image for auth
 
 ```bash
 cd ../ambassador-auth-service
@@ -140,7 +158,7 @@ cd ../loadgenerator-benchmark
 Before  add the Authetication+API Gateway
 
 ```
-
+bash loadgen.sh
 ```
 
 
@@ -159,7 +177,7 @@ we can see that the auth block the request without username and password
 
 To see the result of  request with username and password
 
-we modity the $loadgen.sh$ as following.
+we modity the loadgen.sh​ as following.
 
 ```
 
