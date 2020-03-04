@@ -33,7 +33,7 @@ And we expose the frontend service by the API Gateway.
 ![Screen Shot 2020-03-03 at 10.27.22 PM](img/Screen%20Shot%202020-03-03%20at%2010.27.22%20PM.png)
 
 
-# Authentication
+## Authentication
 
 
 Build [our auth service](https://github.com/yutiancan/ambassador-auth-service) first. We used the example service provided in Ambassador and we made changes to this source file to use the `username:password` for all the urls. Nothing should be seen if such username and password are not provided. We built a docker image and upload it to the docker hub.
@@ -275,12 +275,4 @@ bash loadgen.sh
 we can see that the auth block the request without username and password
 
 ![Screen Shot 2020-03-03 at 10.19.06 PM](img/Screen%20Shot%202020-03-03%20at%2010.19.06%20PM.png)
-
-
-
-This whole block answer is not that good looking. To see the result of request with username and password, we modity the loadgen.sh​ as following.
-
-```
-
-```
 
