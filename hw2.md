@@ -155,9 +155,59 @@ Bench mark with LoadGenerator
 cd ../loadgenerator-benchmark
 ```
 
+
+
 Before  add the Authetication+API Gateway
 
+delete auth
+
+```bash
+kubectl delete -f extenal-filter.yaml
+kubectl delete -f user-auth.yaml 
 ```
+
+![Screen Shot 2020-03-03 at 10.32.53 PM](img/Screen%20Shot%202020-03-03%20at%2010.32.53%20PM.png)
+
+We decomment the following lines in microservices-demo/microservices-demo/kubernetes-manifests/frontend.yaml as following
+
+```yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-external
+  namespace: ambassador
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+```
+
+
+
+Apply the change
+
+```bash
+kubectl delete svc ambassador -n ambassador
+kubectl delete svc ambassador-admin -n ambassador
+kubectl delete svc ambassador-redis -n ambassador
+
+skaffold delete
+skaffold run
+```
+
+
+
+ 
+
+Run benchmark
+
+```bash
+export FRONTEND_ADDR=localhost
 bash loadgen.sh
 ```
 
@@ -165,7 +215,64 @@ bash loadgen.sh
 
 After  add the Authetication+API Gateway
 
+
+
+Comment the following lines in microservices-demo/microservices-demo/kubernetes-manifests/frontend.yaml as following
+
+```yaml
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: frontend-external
+#   namespace: ambassador
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: frontend
+#   ports:
+#   - name: http
+#     port: 80
+#     targetPort: 8080
 ```
+
+modify loadgen.sh as following
+
+```bash
+set -e
+trap "exit" TERM
+
+#export FRONTEND_ADDR="localhost"
+
+if [[ -z "${FRONTEND_ADDR}" ]]; then
+    echo >&2 "FRONTEND_ADDR not specified"
+    exit 1
+fi
+
+set -x
+
+# if one request to the frontend fails, then exit
+STATUSCODE=$(curl -Lk -u username:password --silent --output /dev/stderr --write-out "%{http_code}" http://${FRONTEND_ADDR})
+if test $STATUSCODE -ne 200; then
+    echo "Error: Could not reach frontend - Status code: ${STATUSCODE}"
+    exit 1
+fi
+
+# else, run loadgen
+locust --host="http://${FRONTEND_ADDR}" --no-web -c "${USERS:-10}" 2>&1
+```
+
+
+
+Change the deployment and run benchmark
+
+```
+edgectl install
+skaffold delete
+skaffold run
+kubectl apply -f mapping.yaml
+kubectl apply -f extenal-filter.yaml
+kubectl apply -f user-auth.yaml 
 bash loadgen.sh
 ```
 
