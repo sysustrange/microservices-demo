@@ -133,19 +133,17 @@ See the home page of the web service
 
 ![Screen Shot 2020-03-03 at 9.58.12 PM](img/Screen%20Shot%202020-03-03%20at%209.58.12%20PM.png)
 
+## Benchmark Test
 
-
-Bench mark with LoadGenerator
+### Bench mark with LoadGenerator
 
 ```bash
 cd ../loadgenerator-benchmark
 ```
 
+#### Before "add the Authetication+API Gateway"
 
-
-Before  add the Authetication+API Gateway
-
-delete auth
+Delete auth
 
 ```bash
 kubectl delete -f extenal-filter.yaml
@@ -154,7 +152,7 @@ kubectl delete -f user-auth.yaml
 
 ![Screen Shot 2020-03-03 at 10.32.53 PM](img/Screen%20Shot%202020-03-03%20at%2010.32.53%20PM.png)
 
-We decomment the following lines in microservices-demo/microservices-demo/kubernetes-manifests/frontend.yaml as following
+We decomment the following lines in microservices-demo/microservices-demo/kubernetes-manifests/frontend.yaml as following. As we said, this will deploy a loadBalancer called `frontend-external`, which will expose the frontend service.
 
 ```yaml
 ---
@@ -174,7 +172,6 @@ spec:
 ```
 
 
-
 Apply the change
 
 ```bash
@@ -185,7 +182,6 @@ kubectl delete svc ambassador-redis -n ambassador
 skaffold delete
 skaffold run
 ```
-
 
 
 Then wait for 1 - 3 minutes. Now, can see the frontend-extenal service start and the ambassador services get down.
@@ -215,11 +211,9 @@ We can see that it always success.
 
 
 
-After adding the Authetication+API Gateway
+#### After "add the Authetication+API Gateway"
 
-
-
-Comment the following lines in microservices-demo/microservices-demo/kubernetes-manifests/frontend.yaml as following
+Comment the following lines in microservices-demo/microservices-demo/kubernetes-manifests/frontend.yaml as following.
 
 ```yaml
 # ---
@@ -284,9 +278,7 @@ we can see that the auth block the request without username and password
 
 
 
-To see the result of  request with username and password
-
-we modity the loadgen.sh​ as following.
+This whole block answer is not that good looking. To see the result of request with username and password, we modity the loadgen.sh​ as following.
 
 ```
 
