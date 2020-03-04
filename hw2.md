@@ -213,7 +213,7 @@ bash loadgen.sh
 
 
 
-After  add the Authetication+API Gateway
+After adding the Authetication+API Gateway
 
 
 
