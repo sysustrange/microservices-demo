@@ -2,11 +2,9 @@
 
 Student: Junlin Zeng, Tiancan Yu
 
+## API Gateway exposing the HTTP
 
-
-
-
-install edgectl
+Install the edgectl for ambassador
 
 ```bash
 wget https://metriton.datawire.io/downloads/darwin/edgectl
@@ -15,9 +13,7 @@ sudo chmod a+x /usr/local/bin/edgectl
 edgectl install
 ```
 
-
-
-set api gateway
+Use the `skaffold` to turn on the example service. Create a `Mapping` config to expose the frontend service:
 
 ```bash
 git clone git@github.com:sysustrange/microservices-demo.git
@@ -26,11 +22,9 @@ skaffold run
 kubectl apply -f mapping.yaml
 ```
 
-
-
 Check the pods and services
 
-Note that we haven't deploy the frontend-external service. 
+Note that we haven't deploy the frontend-external service. (which is an "evil" service in the `microservice-demo` exposing the frontend service automatically. We deleted this service to prove we did expose the frontend service using Ambassador.)
 
 And we expose the frontend service by the API Gateway.
 
@@ -39,19 +33,17 @@ And we expose the frontend service by the API Gateway.
 ![Screen Shot 2020-03-03 at 10.27.22 PM](img/Screen%20Shot%202020-03-03%20at%2010.27.22%20PM.png)
 
 
+# Authentication
 
 
-
-
-
-Make our docker image for auth
+Build [our auth service](https://github.com/yutiancan/ambassador-auth-service) first. We used the example service provided in Ambassador and we made changes to this source file to use the `username:password` for all the urls. Nothing should be seen if such username and password are not provided. We built a docker image and upload it to the docker hub.
 
 ```bash
 cd ../ambassador-auth-service
 bash travis-build.sh
 ```
 
-Our docker image is in here
+Our docker image is in here.
 
 ```http
 https://hub.docker.com/r/tiancanyu/ambassador-auth-service
@@ -61,7 +53,7 @@ https://hub.docker.com/r/tiancanyu/ambassador-auth-service
 
 
 
-set up auth
+Deploy the service first in the same namespace.
 
 ```
 cd ../microservices-demo/
@@ -70,12 +62,7 @@ kubectl apply -f extenal-filter.yaml
 ```
 
 
-
-
-
-
-
-check for deployment
+Check for deployment
 
 ```bash
 kubectl get svc -n ambassador
@@ -90,7 +77,6 @@ kubectl get pods -n ambassador
 ```
 
 ![Screen Shot 2020-03-03 at 10.10.44 PM](img/Screen%20Shot%202020-03-03%20at%2010.10.44%20PM.png)
-
 
 
 Verify the auth
