@@ -17,7 +17,7 @@
 set -e
 trap "exit" TERM
 
-export FRONTEND_ADDR="localhost"
+#export FRONTEND_ADDR="localhost"
 
 if [[ -z "${FRONTEND_ADDR}" ]]; then
     echo >&2 "FRONTEND_ADDR not specified"
