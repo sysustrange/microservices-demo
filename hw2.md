@@ -53,7 +53,7 @@ https://hub.docker.com/r/tiancanyu/ambassador-auth-service
 
 
 
-Deploy the service first in the same namespace.
+Deploy the service first in the same namespace. And also apply our filter file as well, in which contains the definition of external-filter and also our filerPolicy, which we just mark all the urls.
 
 ```
 cd ../microservices-demo/
@@ -79,7 +79,7 @@ kubectl get pods -n ambassador
 ![Screen Shot 2020-03-03 at 10.10.44 PM](img/Screen%20Shot%202020-03-03%20at%2010.10.44%20PM.png)
 
 
-Verify the auth
+Verify the auth, luckily, you won't be able to see our page without auth.
 
 ```bash
 curl -Lkv http://localhost
