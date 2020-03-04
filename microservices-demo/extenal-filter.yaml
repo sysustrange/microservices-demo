@@ -1,0 +1,67 @@
+# ---
+# apiVersion: getambassador.io/v2
+# kind: Filter
+# metadata:
+#   name:      "example-filter"      # required; this is how to refer to the Filter in a FilterPolicy
+#   namespace: "ambassador"      # optional; default is the usual `kubectl apply` default namespace
+# spec:
+#   # ambassador_id:           # optional; default is ["default"]
+#   # - "string"
+#   # ambassador_id: "string"  # no need for a list if there's only one value
+#   FILTER_TYPE:
+#     GLOBAL_FILTER_ARGUMENTS
+
+
+
+---
+apiVersion: getambassador.io/v2
+kind: FilterPolicy
+metadata:
+  name: httpbin-policy
+  namespace: ambassador
+spec:
+  rules:
+  # Don't apply any filters to requests for /httpbin/ip
+  # - host: "*"
+  #   path: /httpbin/ip
+  #   filters: null
+  # Apply param-filter and auth0 to requests for /httpbin/
+  - host: "*"
+    path: /*
+    filters:
+    # - name: param-filter
+    - name: example-external-filter
+  # Default to authorizing all requests with auth0
+
+
+
+
+---
+apiVersion: getambassador.io/v2
+kind: Filter
+metadata:
+  name: "example-external-filter"
+  namespace: "ambassador"
+spec:
+  External:
+    auth_service:       "example-auth:3000"   # required
+    # tls:                bool                # optional; default is true if `auth_service` starts with "https://" (case-insensitive), false otherwise
+    # proto:              "enum-string"       # optional; default is "http"
+    # timeout_ms:         integer             # optional; default is 5000
+    # allow_request_body: bool                # deprecated; use include_body instead
+    # include_body:                           # optional; default is null
+    #   max_bytes:          integer             # required
+    #   allow_partial:      bool                # required
+    # status_on_error:                        # optional
+    #   code:               integer             # optional; default is 403
+    # failure_mode_allow: bool                # optional; default is false
+
+    # the following are used only if `proto: http`; they are ignored if `proto: grpc`
+
+    path_prefix:                   "/extauth"  # optional; default is ""
+    allowed_request_headers:                # optional; default is []
+    - "x-qotm-session"
+    allowed_authorization_headers:          # optional; default is []
+    - "x-qotm-session"
+    # - "x-allowed-output-header"
+    # add_linkerd_headers:           bool     # optional; default is false
