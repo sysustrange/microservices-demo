@@ -188,7 +188,16 @@ skaffold run
 
 
 
- 
+Then wait for 1 - 3 minutes. Now, can see the frontend-extenal service start and the ambassador services get down.
+
+```bash
+kubectl get pods -n ambassador
+kubectl get svc -n ambassador
+```
+
+![Screen Shot 2020-03-03 at 11.07.14 PM](img/Screen%20Shot%202020-03-03%20at%2011.07.14%20PM.png)
+
+
 
 Run benchmark
 
@@ -196,6 +205,14 @@ Run benchmark
 export FRONTEND_ADDR=localhost
 bash loadgen.sh
 ```
+
+![Screen Shot 2020-03-03 at 11.11.22 PM](img/Screen%20Shot%202020-03-03%20at%2011.11.22%20PM.png)
+
+![Screen Shot 2020-03-03 at 11.13.14 PM](img/Screen%20Shot%202020-03-03%20at%2011.13.14%20PM.png)
+
+![Screen Shot 2020-03-03 at 11.16.17 PM](img/Screen%20Shot%202020-03-03%20at%2011.16.17%20PM.png)
+
+We can see that it always success.
 
 
 
